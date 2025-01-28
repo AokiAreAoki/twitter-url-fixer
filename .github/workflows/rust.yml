@@ -20,3 +20,5 @@ jobs:
       run: cargo build --verbose
     - name: Run tests
       run: cargo test --verbose
+    - name: GH Release
+      uses: softprops/action-gh-release@v2.2.1
