@@ -20,14 +20,12 @@ jobs:
       run: cargo build --verbose
     - name: Run tests
       run: cargo test --verbose
-    - name: Tag the repository
-      id: tag
-      run: |
-        TAG=v$(date -Iseconds | sed 's/[T:\+]/-/g')
-        echo "$TAG"
-        echo "tag=$TAG" >> $GITHUB_OUTPUT
-        git tag -a $TAG -m "Published version $TAG" ${GITHUB_SHA}
-        git push origin $TAG
+    - name: Bump version and push tag
+      id: bump
+      uses: anothrNick/github-tag-action@v1 
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
+        WITH_V: false
     - name: GH release
       uses: softprops/action-gh-release@v1
       with:
