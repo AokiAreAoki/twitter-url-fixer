@@ -15,6 +15,10 @@ jobs:
             runs-on: windows-latest
             target: x86_64-pc-windows-msvc
             command: build
+          - os_name: Linux-x86_64
+            os: ubuntu-20.04
+            target: x86_64-unknown-linux-musl
+            command: build
 
     runs-on: ${{ matrix.platform.runs-on }}
     steps:
