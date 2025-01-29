@@ -1,12 +1,16 @@
+extern crate clipboard;
+
+use clipboard::ClipboardContext;
+use clipboard::ClipboardProvider;
 use clipboard_master::{CallbackResult, Master};
-use clipboard_win::{get_clipboard_string, set_clipboard_string};
 use regex::{Captures, Regex};
+use std::time::Duration;
 use std::{io, thread::sleep, time};
 
 #[macro_use]
 extern crate lazy_static;
 
-const REPLACE_DELAY: u64 = 150;
+const REPLACE_DELAY: Duration = time::Duration::from_millis(150);
 
 fn callback() -> CallbackResult {
     lazy_static! {
@@ -24,9 +28,11 @@ fn callback() -> CallbackResult {
         };
     }
 
-    sleep(time::Duration::from_millis(REPLACE_DELAY));
+    // sleep(REPLACE_DELAY);
 
-    match get_clipboard_string() {
+    let mut ctx: ClipboardContext = ClipboardProvider::new().unwrap();
+
+    match ctx.get_contents() {
         Err(_) => {
             return CallbackResult::Stop;
         }
@@ -52,7 +58,7 @@ fn callback() -> CallbackResult {
                 return CallbackResult::Stop;
             }
 
-            if let Err(err) = set_clipboard_string(&fixed_string) {
+            if let Err(err) = ctx.set_contents(fixed_string.clone()) {
                 println!("Error setting clipboard: {}", err);
                 return CallbackResult::Stop;
             }
@@ -72,9 +78,9 @@ fn error_callback(error: io::Error) -> CallbackResult {
 }
 
 fn main() {
-    println!("Listening to clipboard");
     let delay = time::Duration::from_millis(100);
 
+    println!("Listening to clipboard");
     loop {
         let _ = Master::new(callback, error_callback).run();
         sleep(delay);
