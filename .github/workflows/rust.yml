@@ -18,6 +18,7 @@ jobs:
           - os-name: Windows-x86_64
             runs-on: windows-latest
             target: x86_64-pc-windows-msvc
+            command: build
 
     runs-on: ${{ matrix.platform.runs-on }}
     steps:
