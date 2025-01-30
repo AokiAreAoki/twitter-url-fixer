@@ -24,7 +24,7 @@ jobs:
     runs-on: ${{ matrix.platform.runs-on }}
     steps:
       - name: Maybe install SSL packages
-        run: sudo apt-get update --yes && sudo apt-get install --yes libxcb-xfixes0-dev
+        run: sudo apt-get update --yes && sudo apt-get install --yes libxcb-xfixes0-dev libxcb1-dev
         if: matrix.platform.runs-on == 'ubuntu-20.04'
       - name: Checkout
         uses: actions/checkout@v4
