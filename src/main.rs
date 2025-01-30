@@ -28,7 +28,7 @@ fn callback() -> CallbackResult {
         };
     }
 
-    // sleep(REPLACE_DELAY);
+    sleep(REPLACE_DELAY);
 
     let mut ctx: ClipboardContext = ClipboardProvider::new().unwrap();
 
