@@ -1,4 +1,4 @@
-name: Rust
+name: Build binaries
 
 on: push
 
@@ -16,14 +16,14 @@ jobs:
             target: x86_64-pc-windows-msvc
             command: build
             
-          - os_name: Linux-x86_64
+          - os-name: Linux-x86_64
             runs-on: ubuntu-20.04
             target: x86_64-unknown-linux-gnu
             command: build
 
     runs-on: ${{ matrix.platform.runs-on }}
     steps:
-      - name: Maybe install SSL packages
+      - name: Install missing libraries (LINUX ONLY)
         run: sudo apt-get update --yes && sudo apt-get install --yes libxcb-xfixes0-dev libxcb1-dev
         if: matrix.platform.runs-on == 'ubuntu-20.04'
       - name: Checkout
