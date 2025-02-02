@@ -2,7 +2,7 @@ extern crate clipboard;
 
 use clipboard::ClipboardContext;
 use clipboard::ClipboardProvider;
-use clipboard_master::{CallbackResult, Master, ClipboardHandler};
+use clipboard_master::{CallbackResult, ClipboardHandler, Master};
 use regex::{Captures, Regex};
 use std::time::Duration;
 use std::{io, thread::sleep, time};
@@ -79,11 +79,6 @@ impl ClipboardHandler for Handler {
         eprintln!("Error: {}", error);
         CallbackResult::Next
     }
-}
-
-fn error_callback(error: io::Error) -> CallbackResult {
-    println!("Error listening to clipboard: {}", error);
-    CallbackResult::Stop
 }
 
 fn main() {
